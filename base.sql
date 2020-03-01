@@ -100,8 +100,30 @@ CREATE TABLE `tb_role_resource` (
 
 /*Data for the table `tb_role_resource` */
 
-insert  into `tb_role_resource`(`role_id`,`resource_id`) values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18);
-
+-- Insert batch #1
+INSERT INTO tb_role_resource (role_id, resource_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(2, 15),
+(1, 16),
+(2, 16),
+(1, 17),
+(2, 17),
+(1, 18),
+(2, 18);
 /*Table structure for table `tb_user` */
 
 DROP TABLE IF EXISTS `tb_user`;
