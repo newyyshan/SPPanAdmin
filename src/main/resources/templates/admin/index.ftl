@@ -36,22 +36,34 @@
                                 <span class="clear">
                                     <span class="block m-t-xs" style="font-size:20px;">
                                         <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">SPPanAdmin</strong>
+                                        <strong class="font-bold">运维日志管理</strong>
                                     </span>
                                 </span>
                             </a>
                         </div>
-                        <div class="logo-element">SPPanAdmin
+                        <div class="logo-element">运维日志管理
                         </div>
                     </li>
-                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">分类</span>
-                    </li>
+                    <#--<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">-->
+                        <#--<span class="ng-scope">分类</span>-->
+                    <#--</li>-->
                     <li>
-                        <a class="J_menuItem" href="${ctx!}/admin/welcome">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">主页</span>
+                        <#--<a class="J_menuItem" href="${ctx!}/admin/welcome">-->
+                            <#--<i class="fa fa-home"></i>-->
+                            <#--<span class="nav-label">主页</span><span class="fa arrow"></span>-->
+                        <#--</a>-->
+                        <a href="#">
+                            <i class="fa fa fa-cog"></i>
+                            <span class="nav-label">日志管理</span>
+                            <span class="fa arrow"></span>
                         </a>
+                        <ul class="nav nav-second-level">
+                         <@shiro.hasPermission name="system:oplog:index">
+                            <li>
+                                <a class="J_menuItem" href="${ctx!}/admin/oplog/index">运维日志管理</a>
+                            </li>
+                         </@shiro.hasPermission>
+                        </ul>
                     </li>
                     <li>
                         <a href="#">

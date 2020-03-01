@@ -21,18 +21,18 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>jQuery Validate 简介</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <p>jquery.validate.js 是一款优秀的jQuery表单验证插件。它具有如下特点：</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <#--<div class="row">-->
+            <#--<div class="col-sm-12">-->
+                <#--<div class="ibox float-e-margins">-->
+                    <#--<div class="ibox-title">-->
+                        <#--<h5>jQuery Validate 简介</h5>-->
+                    <#--</div>-->
+                    <#--<div class="ibox-content">-->
+                        <#--<p>jquery.validate.js 是一款优秀的jQuery表单验证插件。它具有如下特点：</p>-->
+                    <#--</div>-->
+                <#--</div>-->
+            <#--</div>-->
+        <#--</div>-->
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">

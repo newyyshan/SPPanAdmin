@@ -1195,6 +1195,17 @@ button.dim:active:before {
     text-shadow: none;
 }
 
+.label-new,
+.badge-new {
+    background-color: #27c24c;
+    color: #FFFFFF;
+}
+.label-end,
+.badge-end {
+    background-color: #58666e;
+    color: #FFFFFF;
+}
+
 .label-primary,
 .badge-primary {
     background-color: #23b7e5;

@@ -5,6 +5,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	welcome to
+	欢迎进入龙湖运维日志管理平台
 </body>
 </html>

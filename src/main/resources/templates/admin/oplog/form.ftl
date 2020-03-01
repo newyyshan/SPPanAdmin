@@ -11,7 +11,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <link rel="shortcut icon" href="favicon.ico"> 
+    <link rel="shortcut icon" href="favicon.ico">
     <link href="${ctx!}/assets/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="${ctx!}/assets/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="${ctx!}/assets/css/animate.css" rel="stylesheet">
@@ -37,36 +37,55 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>完整验证表单</h5>
+                        <h5>日志编辑</h5>
                     </div>
                     <div class="ibox-content">
-                        <form class="form-horizontal m-t" id="frm" method="post" action="${ctx!}/admin/role/edit">
-                        	<input type="hidden" id="id" name="id" value="${role.id}">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">角色key：</label>
-                                <div class="col-sm-8">
-                                    <input id="roleKey" name="roleKey" class="form-control" type="text" value="${role.roleKey}" <#if role?exists> readonly="readonly"</#if> >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">角色名称：</label>
-                                <div class="col-sm-8">
-                                    <input id="name" name="name" class="form-control" type="text" value="${role.name}">
-                                </div>
-                            </div>
+                        <form class="form-horizontal m-t" id="frm" method="post" action="${ctx!}/admin/oplog/edit">
+                        	<input type="hidden" id="id" name="id" value="${oplog.id}">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">状态：</label>
                                 <div class="col-sm-8">
-                                	<select name="status" class="form-control">
-                                		<option value="0" <#if role.status == 0>selected="selected"</#if>>正常</option>
-                                		<option value="1" <#if role.status == 1>selected="selected"</#if>>禁用</option>
-                                	</select>
+                                    <input name="state" type="checkbox" value=2> 办结
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">描述：</label>
+                                <label class="col-sm-3 control-label">区域：</label>
                                 <div class="col-sm-8">
-                                    <input id="description" name="description" class="form-control" value="${role.description}">
+                                    <select name="region" class="form-control">
+                                        <option value="沪苏区域" <#if oplog.region == "沪苏区域">selected="selected"</#if>>沪苏区域</option>
+                                        <option value="其他" <#if oplog.region == "其他">selected="selected"</#if>>其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">广场：</label>
+                                <div class="col-sm-8">
+                                    <select name="square" class="form-control">
+                                        <option value="吴中广场" <#if oplog.square == "吴中广场">selected="selected"</#if>>吴中广场</option>
+                                        <option value="虹桥广场" <#if oplog.square == "虹桥广场">selected="selected"</#if>>虹桥广场</option>
+                                        <option value="宝山广场" <#if oplog.square == "宝山广场">selected="selected"</#if>>宝山广场</option>
+                                        <option value="其他" <#if oplog.square == "其他">selected="selected"</#if>>其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">事项名称：</label>
+                                <div class="col-sm-8">
+                                    <input id="eventname" name="eventname" class="form-control" type="text" value="${oplog.eventname}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">操作用户：</label>
+                                <div class="col-sm-8">
+                                    <input id="createUser" name="createUser" class="form-control" value='<@shiro.principal type="net.sppan.base.entity.User" property="userName"/>' readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">备注：</label>
+                                <div class="col-sm-8">
+                                    <input id="remark" name="remark" class="form-control" value="${oplog.remark}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -97,24 +116,27 @@
     <script src="${ctx!}/assets/js/plugins/layer/laydate/laydate.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+
 	    $("#frm").validate({
     	    rules: {
-    	    	roleKey: {
-    	        required: true,
-    	        minlength: 4,
-    	    	maxlength: 30
-    	      },
-    	        name: {
-    	        required: true,
-    	        minlength: 4,
-    	    	maxlength: 30
-    	      },
-    	        status: {
-    	        required: true
-    	      },
-    	      	description: {
-    	        required: true,
-    	        maxlength: 40
+            //     region: {
+    	     //    required: true,
+    	     //    minlength: 4,
+    	    	// maxlength: 40
+            //   },
+            // square: {
+            //     required: true,
+            //     minlength: 4,
+            //     maxlength: 40
+            //   },
+            eventname: {
+                required: true,
+                minlength: 4,
+                maxlength: 80
+              },
+    	      	remark: {
+    	        required: false,
+    	        maxlength: 255
     	      }
     	    },
     	    messages: {},
@@ -122,16 +144,16 @@
     	    	$.ajax({
    	    		   type: "POST",
    	    		   dataType: "json",
-   	    		   url: "${ctx!}/admin/role/edit",
+   	    		   url: "${ctx!}/admin/oplog/edit",
    	    		   data: $(form).serialize(),
    	    		   success: function(msg){
 	   	    			layer.msg(msg.message, {time: 2000},function(){
 	   						var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-	   						parent.layer.close(index); 
+	   						parent.layer.close(index);
 	   					});
    	    		   }
    	    		});
-            } 
+            }
     	});
     });
     </script>
