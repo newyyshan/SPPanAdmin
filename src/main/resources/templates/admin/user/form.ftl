@@ -140,12 +140,12 @@
     	    rules: {
     	    	userName: {
     	        required: true,
-    	        minlength: 4,
+    	        minlength: 2,
     	    	maxlength: 10
     	      },
     	      	nickName: {
     	        required: true,
-    	        minlength: 4,
+    	        minlength: 2,
     	    	maxlength: 10
     	      },
     	      	sex: {
