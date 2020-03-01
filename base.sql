@@ -81,8 +81,10 @@ CREATE TABLE `tb_role` (
 
 /*Data for the table `tb_role` */
 
-insert  into `tb_role`(`id`,`create_time`,`description`,`name`,`role_key`,`status`,`update_time`) values (1,'2017-01-09 17:25:30','超级管理员','administrator','administrator',0,'2017-01-09 17:26:25');
-
+-- Insert batch #1
+INSERT INTO tb_role (id, create_time, description, name, role_key, status, update_time) VALUES
+(1, '2017-01-09 17:25:30', '超级管理员', 'administrator', 'administrator', 0, '2020-03-01 02:26:17'),
+(2, '2020-03-01 02:12:13', '创建普通用户', '普通用户', 'commonuser', 0, '2020-03-01 02:12:13');
 /*Table structure for table `tb_role_resource` */
 
 DROP TABLE IF EXISTS `tb_role_resource`;
@@ -124,8 +126,10 @@ CREATE TABLE `tb_user` (
 
 /*Data for the table `tb_user` */
 
-insert  into `tb_user`(`id`,`address`,`birthday`,`create_time`,`delete_status`,`description`,`email`,`locked`,`nick_name`,`password`,`sex`,`telephone`,`update_time`,`user_name`) values (1,'成都','2017-01-09 17:26:39','2017-01-09 17:26:41',0,'超级管理员','whoismy8023@163.com',0,'admin','3931MUEQD1939MQMLM4AISPVNE',1,'15923930000','2017-01-09 17:27:11','admin');
-
+-- Insert batch #1
+INSERT INTO tb_user (id, address, birthday, create_time, delete_status, description, email, locked, nick_name, password, sex, telephone, update_time, user_name) VALUES
+(1, '成都', '2017-01-09 17:26:39', '2017-01-09 17:26:41', 0, '超级管理员', 'whoismy8023@163.com', 0, 'admin', '3931MUEQD1939MQMLM4AISPVNE', 1, '15923930000', '2017-01-09 17:27:11', 'admin'),
+(3, '龙湖广场', '2020-02-29 16:00:00', '2020-03-01 02:25:11', 0, '新增用户', 'test@172.com', 0, '童童', '3931MUEQD1939MQMLM4AISPVNE', 1, '12345678900', '2020-03-01 02:25:11', '赵益童');
 /*Table structure for table `tb_user_role` */
 
 DROP TABLE IF EXISTS `tb_user_role`;
