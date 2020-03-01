@@ -88,7 +88,11 @@ public class OplogServiceImpl extends BaseServiceImpl<Oplog, Integer>
 			dbOplog.setEventname(oplog.getEventname());
 			update(dbOplog);
 		}else{
-			oplog.setState(0);
+			if (oplog.getState() !=null){
+				oplog.setState(oplog.getState());
+			}else {
+				oplog.setState(0);
+			}
 			oplog.setCreateTime(new Date());
 			save(oplog);
 		}
