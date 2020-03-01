@@ -145,7 +145,10 @@ CREATE TABLE `tb_user_role` (
 
 /*Data for the table `tb_user_role` */
 
-insert  into `tb_user_role`(`user_id`,`role_id`) values (1,1);
+-- Insert batch #1
+INSERT INTO tb_user_role (user_id, role_id) VALUES
+(1, 1),
+(3, 2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
