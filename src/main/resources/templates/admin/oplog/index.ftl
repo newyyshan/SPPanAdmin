@@ -129,7 +129,8 @@
 						}
                     },{
                         title: "区域",
-                        field: "region"
+                        field: "region",
+                        sortable: true
 						// formatter: function(value, row, index) {
 						// 	if (value == '0')
 						// 		return '<span class="label label-warning">沪苏区域</span>';
@@ -137,7 +138,8 @@
                         // }
 					}, {
                     title: "广场",
-                    field: "square"
+                    field: "square",
+                    sortable: true
                     // formatter: function(value, row, index) {
                     // 	if (value == '0')
                     // 		return '<span class="label label-warning">吴中</span>';

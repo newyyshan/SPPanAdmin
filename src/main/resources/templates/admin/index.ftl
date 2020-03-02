@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title> SPPanAdmin- 主页</title>
+    <title> 龙湖运维日志管理- 主页</title>
 
     <meta name="keywords" content="">
     <meta name="description" content="">
