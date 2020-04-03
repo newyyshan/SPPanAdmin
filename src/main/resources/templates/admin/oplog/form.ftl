@@ -61,9 +61,12 @@
                                 <label class="col-sm-3 control-label">广场：</label>
                                 <div class="col-sm-8">
                                     <select name="square" class="form-control">
-                                        <option value="吴中广场" <#if oplog.square == "吴中广场">selected="selected"</#if>>吴中广场</option>
+                                        <option value="狮山广场" <#if oplog.square == "狮山广场">selected="selected"</#if>>狮山广场</option>
                                         <option value="虹桥广场" <#if oplog.square == "虹桥广场">selected="selected"</#if>>虹桥广场</option>
                                         <option value="宝山广场" <#if oplog.square == "宝山广场">selected="selected"</#if>>宝山广场</option>
+                                        <option value="华泾广场" <#if oplog.square == "华泾广场">selected="selected"</#if>>华泾广场</option>
+                                        <option value="马桥广场" <#if oplog.square == "马桥广场">selected="selected"</#if>>马桥广场</option>
+                                        <option value="闵行广场" <#if oplog.square == "闵行广场">selected="selected"</#if>>闵行广场</option>
                                         <option value="其他" <#if oplog.square == "其他">selected="selected"</#if>>其他</option>
                                     </select>
                                 </div>

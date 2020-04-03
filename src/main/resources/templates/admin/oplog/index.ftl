@@ -242,7 +242,7 @@
         
         function detailFormatter(index, row) {
 	        var html = [];
-	        html.push('<p><b>备注:</b> ' + row.remark + '</p>');
+	        html.push('<p><b>工作日报:</b> ' + row.remark + '</p>');
 	        return html.join('');
 	    }
     </script>
