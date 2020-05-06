@@ -1,7 +1,6 @@
 package net.sppan.base.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import jdk.nashorn.internal.ir.IdentNode;
 import net.sppan.base.entity.support.BaseEntity;
 
 import javax.persistence.*;
