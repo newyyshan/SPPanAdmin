@@ -1,0 +1,12 @@
+# editor
+.classpath
+.project
+.settings
+.idea
+*.iml
+
+# build
+target
+
+# logs
+*.log
