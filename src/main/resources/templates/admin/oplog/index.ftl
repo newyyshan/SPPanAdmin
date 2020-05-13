@@ -103,10 +103,10 @@
                   <div class="input-group input-daterange"
                        id="create-time-datepicker">
                     <input type="text" class="input-sm form-control"
-                           name="start"/>
+                           name="start" placeholder="开始日期"/>
                     <span class="input-group-addon">到</span>
                     <input type="text" class="input-sm form-control"
-                           name="end"/>
+                           name="end" placeholder="结束日期"/>
                   </div>
                 </div>
               </div>
@@ -116,17 +116,17 @@
                   <div class="input-group input-daterange"
                        id="update-time-datepicker">
                     <input type="text" class="input-sm form-control"
-                           name="start"/>
+                           name="start" placeholder="开始日期"/>
                     <span class="input-group-addon">到</span>
                     <input type="text" class="input-sm form-control"
-                           name="end"/>
+                           name="end" placeholder="结束日期"/>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-4">
                 <div class="pull-right m-r">
                   <button class="btn btn-info" type="button" id="search-btn">
-                    <i class="fa fa-search"></i>&nbsp;搜素
+                    <i class="fa fa-search"></i>&nbsp;搜索
                   </button>
                 </div>
               </div>
