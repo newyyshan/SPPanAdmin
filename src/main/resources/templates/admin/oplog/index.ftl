@@ -79,20 +79,22 @@
               <div class="form-group col-sm-4">
                 <label class="col-sm-4 control-label">创建人：</label>
                 <div class="col-sm-8">
-                  <input type="text" placeholder="请输入用户名" class="form-control">
+                  <input type="text" placeholder="请输入用户名" class="form-control"
+                         name="create-user" id="create-user-input">
                 </div>
               </div>
               <div class="form-group col-sm-4">
                 <label class="col-sm-4 control-label">更新人：</label>
                 <div class="col-sm-8">
-                  <input type="text" placeholder="请输入用户名" class="form-control">
+                  <input type="text" placeholder="请输入用户名" class="form-control"
+                         name="update-user" id="update-user-input">
                 </div>
               </div>
               <div class="form-group col-sm-4">
                 <label class="col-sm-4 control-label">事项名称：</label>
                 <div class="col-sm-8">
                   <input type="text" placeholder="请输入事项名称关键词"
-                         class="form-control">
+                         class="form-control" name="event-name" id="event-name">
                 </div>
               </div>
             </div>
@@ -125,6 +127,9 @@
               </div>
               <div class="form-group col-sm-4">
                 <div class="pull-right m-r">
+                  <button class="btn btn-default" type="button" id="reset-btn">
+                    重置
+                  </button>
                   <button class="btn btn-info" type="button" id="search-btn">
                     <i class="fa fa-search"></i>&nbsp;搜索
                   </button>
@@ -168,15 +173,80 @@
 <!-- Page-Level Scripts -->
 <script>
   $(document).ready(function () {
-    $('#state-select').chosen({width: '100%'});
-    $('#region-select').chosen({width: '100%'});
-    $('#square-select').chosen({width: '100%'});
+    var requestParams = {
+      // 查询条件参数
+      state: '',
+      region: '',
+      square: '',
+      createUser: '',
+      updateUser: '',
+      eventname: '',
+      createTime: [],
+      updateTime: [],
+
+      // 表格插件参数
+      pageSize: 10,
+      pageNumber: 1,
+      searchText: '',
+      sortName: '',
+      sortOrder: 'asc' // 'asc', 'desc'
+    };
+
+    /**
+     * 获取最新的表单参数
+     */
+    function getLatestFormParams() {
+      var params = {
+        // 查询条件参数
+        state: $('#state-select').val(),
+        region: $('#region-select').val(),
+        square: $('#square-select').val(),
+        createUser: $('#create-user-input').val().trim(),
+        updateUser: $('#update-user-input').val().trim(),
+        eventname: $('#event-name').val().trim(),
+        createTime: [],
+        updateTime: [],
+
+        // 表格插件参数
+        pageSize: 10,
+        pageNumber: 1,
+        searchText: '',
+        sortName: '',
+        sortOrder: 'asc' // 'asc', 'desc'
+      };
+
+      $('#create-time-datepicker').find('input').each(function (index, el) {
+        params.createTime[index] = $(el).val();
+      });
+
+      $('#update-time-datepicker').find('input').each(function (index, el) {
+        params.updateTime[index] = $(el).val();
+      });
+
+      return params;
+    }
+
+    /** 下拉菜单默认配置 */
+    var chosenOptions = {
+      width: '100%',
+      no_results_text: '没有匹配的结果',
+      placeholder_text_multiple: '选择多个选项',
+      placeholder_text_single: '选择一个选项'
+    };
+
+    $('#state-select').chosen(chosenOptions);
+    $('#region-select').chosen(chosenOptions);
+    $('#square-select').chosen(chosenOptions);
 
     $('#create-time-datepicker').datepicker({});
     $('#update-time-datepicker').datepicker({});
 
+    $('#reset-btn').on('click', function () {
+      console.log('重置');
+    });
+
     $('#search-btn').on('click', function () {
-      console.log('搜索');
+      console.log('搜索', getLatestFormParams());
     });
 
     //初始化表格,动态从服务器加载数据
@@ -198,7 +268,7 @@
       //记录数可选列表
       pageList: [5, 10, 15, 20, 25],
       //是否启用查询
-      search: false,
+      search: true,
       //是否启用详细信息视图
       detailView: true,
       detailFormatter: detailFormatter,
