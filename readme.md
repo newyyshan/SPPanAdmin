@@ -1,3 +1,16 @@
+# 龙湖运维日志管理
+
+## 需求
+
+日志管理
+
+1. 支持下拉选择【状态】、【区域】、【广场】
+2. 支持模糊搜索【事项名称】
+3. 支持按时间范围选择【创建时间】、【更新时间】
+4. 支持输入筛选【创建人】、【更新人】
+
+## 系统说明
+
 1. 系统管理后台基本框架SPPanAdmin，包括用户管理，角色管理，资源链接管理模块，可以动态分配权限和角色。
 2. 使用springboot、springdata jpa、shiro等服务端技术，使用freemarker模版渲染页面。
 3. 系统中对springdata的查询条件Specification做了简单的封装，更加方便查询条件的灵活使用。
@@ -14,10 +27,16 @@
 6. 系统启动后，访问：127.0.0.1/admin/会自动跳转到后台登录页面。
 7. 初始用户名和密码为：admin/111111。
 8. 演示图片：
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101747_21c1bc11_559378.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101756_5ab80e6b_559378.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101805_f87bd7b4_559378.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101813_39158674_559378.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101823_106d2eb9_559378.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101830_5767b7c1_559378.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0120/101839_c5700e09_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101747_21c1bc11_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101756_5ab80e6b_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101805_f87bd7b4_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101813_39158674_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101823_106d2eb9_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101830_5767b7c1_559378.jpeg "在这里输入图片标题")
+![输入图片说明](./images/101839_c5700e09_559378.jpeg "在这里输入图片标题")
+
+## 插件文档
+
+- https://bootstrap-table.com/
+- https://harvesthq.github.io/chosen/
+- https://bootstrap-datepicker.readthedocs.io/en/latest/index.html
