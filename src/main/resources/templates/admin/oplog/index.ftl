@@ -173,6 +173,18 @@
 <!-- Page-Level Scripts -->
 <script>
   $(document).ready(function () {
+    var $stateSelect = $('#state-select');
+    var $regionSelect = $('#region-select');
+    var $squareSelect = $('#square-select');
+    var $createUserInput = $('#create-user-input');
+    var $updateUserInput = $('#update-user-input');
+    var $eventName = $('#event-name');
+    var $createTimeDatepicker = $('#create-time-datepicker');
+    var $updateTimeDatepicker = $('#update-time-datepicker');
+    var $resetBtn = $('#reset-btn');
+    var $searchBtn = $('#search-btn');
+    var $table = $("#table_list");
+
     var requestParams = {
       // 查询条件参数
       state: '',
@@ -198,12 +210,12 @@
     function getLatestFormParams() {
       var params = {
         // 查询条件参数
-        state: $('#state-select').val(),
-        region: $('#region-select').val(),
-        square: $('#square-select').val(),
-        createUser: $('#create-user-input').val().trim(),
-        updateUser: $('#update-user-input').val().trim(),
-        eventname: $('#event-name').val().trim(),
+        state: $stateSelect.val(),
+        region: $regionSelect.val(),
+        square: $squareSelect.val(),
+        createUser: $createUserInput.val().trim(),
+        updateUser: $updateUserInput.val().trim(),
+        eventname: $eventName.val().trim(),
         createTime: [],
         updateTime: [],
 
@@ -215,13 +227,21 @@
         sortOrder: 'asc' // 'asc', 'desc'
       };
 
-      $('#create-time-datepicker').find('input').each(function (index, el) {
+      $createTimeDatepicker.find('input').each(function (index, el) {
         params.createTime[index] = $(el).val();
       });
 
-      $('#update-time-datepicker').find('input').each(function (index, el) {
+      $updateTimeDatepicker.find('input').each(function (index, el) {
         params.updateTime[index] = $(el).val();
       });
+
+      if (params.createTime.filter(function (item) { return item.length === 0; }).length === 2) {
+        params.createTime = [];
+      }
+
+      if (params.updateTime.filter(function (item) { return item.length === 0; }).length === 2) {
+        params.updateTime = [];
+      }
 
       return params;
     }
@@ -234,23 +254,47 @@
       placeholder_text_single: '选择一个选项'
     };
 
-    $('#state-select').chosen(chosenOptions);
-    $('#region-select').chosen(chosenOptions);
-    $('#square-select').chosen(chosenOptions);
+    $stateSelect.chosen(chosenOptions);
+    $regionSelect.chosen(chosenOptions);
+    $squareSelect.chosen(chosenOptions);
 
-    $('#create-time-datepicker').datepicker({});
-    $('#update-time-datepicker').datepicker({});
+    $createTimeDatepicker.datepicker({});
+    $updateTimeDatepicker.datepicker({});
 
-    $('#reset-btn').on('click', function () {
+    $resetBtn.on('click', function () {
       console.log('重置');
+      $stateSelect.val('');
+      $regionSelect.val('');
+      $squareSelect.val('');
+      $stateSelect.trigger("chosen:updated");
+      $regionSelect.trigger("chosen:updated");
+      $squareSelect.trigger("chosen:updated");
+
+      $createUserInput.val('');
+      $updateUserInput.val('');
+      $eventName.val('');
+
+      $createTimeDatepicker.find('input').each(function (index, el) {
+        $(el).val('');
+      });
+      $updateTimeDatepicker.find('input').each(function (index, el) {
+        $(el).val('');
+      });
     });
 
-    $('#search-btn').on('click', function () {
+    $searchBtn.on('click', function () {
       console.log('搜索', getLatestFormParams());
+      // TODO:
+      // 前端部分
+      // 1. jQuery Table 在发送请求时使用自定义请求参数
+      // 2. 点击搜索时主动发送请求，刷新 jQuery Table 数据
+      // 后端部分
+      // 3. Java 代码支持解析新增的参数
+      // 4. 查询数据
     });
 
     //初始化表格,动态从服务器加载数据
-    $("#table_list").bootstrapTable({
+    $table.bootstrapTable({
       //使用get请求到服务器获取数据
       method: "POST",
       //必须设置，不然request.getParameter获取不到请求参数
