@@ -185,25 +185,6 @@
     var $searchBtn = $('#search-btn');
     var $table = $("#table_list");
 
-    var requestParams = {
-      // 查询条件参数
-      state: '',
-      region: '',
-      square: '',
-      createUser: '',
-      updateUser: '',
-      eventname: '',
-      createTime: [],
-      updateTime: [],
-
-      // 表格插件参数
-      pageSize: 10,
-      pageNumber: 1,
-      searchText: '',
-      sortName: '',
-      sortOrder: 'asc' // 'asc', 'desc'
-    };
-
     /**
      * 获取最新的表单参数
      */
@@ -222,8 +203,8 @@
         // 表格插件参数
         pageSize: 10,
         pageNumber: 1,
-        searchText: '',
-        sortName: '',
+        searchText: undefined,
+        sortName: undefined,
         sortOrder: 'asc' // 'asc', 'desc'
       };
 
@@ -235,11 +216,16 @@
         params.updateTime[index] = $(el).val();
       });
 
-      if (params.createTime.filter(function (item) { return item.length === 0; }).length === 2) {
+      function isEmptyString(item) {
+        return item.length === 0;
+      }
+
+      // ["", ""] => []
+      if (params.createTime.filter(isEmptyString).length === 2) {
         params.createTime = [];
       }
 
-      if (params.updateTime.filter(function (item) { return item.length === 0; }).length === 2) {
+      if (params.updateTime.filter(isEmptyString).length === 2) {
         params.updateTime = [];
       }
 
@@ -283,14 +269,26 @@
     });
 
     $searchBtn.on('click', function () {
-      console.log('搜索', getLatestFormParams());
-      // TODO:
-      // 前端部分
-      // 1. jQuery Table 在发送请求时使用自定义请求参数
-      // 2. 点击搜索时主动发送请求，刷新 jQuery Table 数据
-      // 后端部分
-      // 3. Java 代码支持解析新增的参数
-      // 4. 查询数据
+      var params = getLatestFormParams();
+      console.log('搜索', params);
+      // 获取运维日志列表数据
+      $.ajax({
+        url: "${ctx!}/admin/oplog/list",
+        method: "POST",
+        contentType: "application/x-www-form-urlencoded",
+        dataType: 'json',
+        data: params
+      }).done(function (data, textStatus, jqXHR) {
+        // 更新表格数据
+        // TODO: 搜索时，表格默认应该重置成第一页
+        $table.bootstrapTable('load', {
+          rows: data.content,
+          total: data.totalElements,
+        });
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log("error");
+        // TODO: 处理 302 状态码
+      });
     });
 
     //初始化表格,动态从服务器加载数据
@@ -305,6 +303,8 @@
       striped: true,
       //启动分页
       pagination: true,
+      //服务端分页
+      sidePagination: "server",
       //每页显示的记录数
       pageSize: 10,
       //当前第几页
@@ -315,9 +315,19 @@
       search: true,
       //是否启用详细信息视图
       detailView: true,
-      detailFormatter: detailFormatter,
-      //表示服务端请求
-      sidePagination: "server",
+      //详细信息视图内容
+      detailFormatter: function (index, row, element) {
+        var html = [];
+        html.push('<p><b>工作日报:</b> ' + row.remark + '</p>');
+        return html.join('');
+      },
+      //Ajax请求参数
+      queryParams: function(params) {
+        var formParams = getLatestFormParams();
+        console.log('tableParams', params);
+        console.log('formParams', formParams);
+        return Object.assign(formParams, params);
+      },
       //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
       //设置为limit可以获取limit, offset, search, sort, order
       queryParamsType: "undefined",
@@ -458,12 +468,6 @@
         }
       });
     });
-  }
-
-  function detailFormatter(index, row) {
-    var html = [];
-    html.push('<p><b>工作日报:</b> ' + row.remark + '</p>');
-    return html.join('');
   }
 </script>
 </body>
