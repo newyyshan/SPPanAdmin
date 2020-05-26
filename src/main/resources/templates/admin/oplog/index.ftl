@@ -185,53 +185,6 @@
     var $searchBtn = $('#search-btn');
     var $table = $("#table_list");
 
-    /**
-     * 获取最新的表单参数
-     */
-    function getLatestFormParams() {
-      var params = {
-        // 查询条件参数
-        state: $stateSelect.val(),
-        region: $regionSelect.val(),
-        square: $squareSelect.val(),
-        createUser: $createUserInput.val().trim(),
-        updateUser: $updateUserInput.val().trim(),
-        eventname: $eventName.val().trim(),
-        createTime: [],
-        updateTime: [],
-
-        // 表格插件参数
-        pageSize: 10,
-        pageNumber: 1,
-        searchText: undefined,
-        sortName: undefined,
-        sortOrder: 'asc' // 'asc', 'desc'
-      };
-
-      $createTimeDatepicker.find('input').each(function (index, el) {
-        params.createTime[index] = $(el).val();
-      });
-
-      $updateTimeDatepicker.find('input').each(function (index, el) {
-        params.updateTime[index] = $(el).val();
-      });
-
-      function isEmptyString(item) {
-        return item.length === 0;
-      }
-
-      // ["", ""] => []
-      if (params.createTime.filter(isEmptyString).length === 2) {
-        params.createTime = [];
-      }
-
-      if (params.updateTime.filter(isEmptyString).length === 2) {
-        params.updateTime = [];
-      }
-
-      return params;
-    }
-
     /** 下拉菜单默认配置 */
     var chosenOptions = {
       width: '100%',
@@ -247,49 +200,8 @@
     $createTimeDatepicker.datepicker({});
     $updateTimeDatepicker.datepicker({});
 
-    $resetBtn.on('click', function () {
-      console.log('重置');
-      $stateSelect.val('');
-      $regionSelect.val('');
-      $squareSelect.val('');
-      $stateSelect.trigger("chosen:updated");
-      $regionSelect.trigger("chosen:updated");
-      $squareSelect.trigger("chosen:updated");
-
-      $createUserInput.val('');
-      $updateUserInput.val('');
-      $eventName.val('');
-
-      $createTimeDatepicker.find('input').each(function (index, el) {
-        $(el).val('');
-      });
-      $updateTimeDatepicker.find('input').each(function (index, el) {
-        $(el).val('');
-      });
-    });
-
-    $searchBtn.on('click', function () {
-      var params = getLatestFormParams();
-      console.log('搜索', params);
-      // 获取运维日志列表数据
-      $.ajax({
-        url: "${ctx!}/admin/oplog/list",
-        method: "POST",
-        contentType: "application/x-www-form-urlencoded",
-        dataType: 'json',
-        data: params
-      }).done(function (data, textStatus, jqXHR) {
-        // 更新表格数据
-        // TODO: 搜索时，表格默认应该重置成第一页
-        $table.bootstrapTable('load', {
-          rows: data.content,
-          total: data.totalElements,
-        });
-      }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log("error");
-        // TODO: 处理 302 状态码
-      });
-    });
+    $resetBtn.on('click', resetForm);
+    $searchBtn.on('click', search);
 
     //初始化表格,动态从服务器加载数据
     $table.bootstrapTable({
@@ -312,7 +224,7 @@
       //记录数可选列表
       pageList: [5, 10, 15, 20, 25],
       //是否启用查询
-      search: true,
+      search: false,
       //是否启用详细信息视图
       detailView: true,
       //详细信息视图内容
@@ -322,11 +234,12 @@
         return html.join('');
       },
       //Ajax请求参数
-      queryParams: function(params) {
-        var formParams = getLatestFormParams();
+      queryParams: function (tableParams) {
+        var formParams = getFormParams();
+        var params = Object.assign(formParams, tableParams);
         console.log('tableParams', params);
         console.log('formParams', formParams);
-        return Object.assign(formParams, params);
+        return $.param(params, true);
       },
       //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
       //设置为limit可以获取limit, offset, search, sort, order
@@ -424,6 +337,111 @@
         }
       }]
     });
+
+    /**
+     * 获取表格参数，并没有真正获取表格插件的参数，只是给搜索使用
+     */
+    function getTableParams() {
+      return {
+        pageSize: 10,
+        pageNumber: 1,
+        searchText: undefined,
+        sortName: undefined,
+        sortOrder: 'asc' // 'asc', 'desc'
+      }
+    }
+
+    /**
+     * 获取表单参数
+     */
+    function getFormParams() {
+      var params = {
+        state: $stateSelect.val(),
+        region: $regionSelect.val(),
+        square: $squareSelect.val(),
+        createUser: $createUserInput.val().trim(),
+        updateUser: $updateUserInput.val().trim(),
+        eventname: $eventName.val().trim(),
+        createTime: [],
+        updateTime: [],
+      };
+
+      $createTimeDatepicker.find('input').each(function (index, el) {
+        params.createTime[index] = $(el).val();
+      });
+
+      $updateTimeDatepicker.find('input').each(function (index, el) {
+        params.updateTime[index] = $(el).val();
+      });
+
+      function isEmptyString(item) {
+        return item.length === 0;
+      }
+
+      // ["", ""] => []
+      if (params.createTime.filter(isEmptyString).length === 2) {
+        params.createTime = [];
+      }
+
+      if (params.updateTime.filter(isEmptyString).length === 2) {
+        params.updateTime = [];
+      }
+
+      return params;
+    }
+
+    /**
+     * 重置表单
+     */
+    function resetForm() {
+      $stateSelect.val('');
+      $regionSelect.val('');
+      $squareSelect.val('');
+      $stateSelect.trigger("chosen:updated");
+      $regionSelect.trigger("chosen:updated");
+      $squareSelect.trigger("chosen:updated");
+
+      $createUserInput.val('');
+      $updateUserInput.val('');
+      $eventName.val('');
+
+      $createTimeDatepicker.find('input').each(function (index, el) {
+        $(el).val('');
+      });
+      $updateTimeDatepicker.find('input').each(function (index, el) {
+        $(el).val('');
+      });
+    }
+
+    /**
+     * 搜索
+     */
+    function search() {
+      var formParams = getFormParams();
+      var tableParams = getTableParams();
+      var params = Object.assign(formParams, tableParams);
+      console.log('搜索', formParams);
+      console.log('搜索', $.param(params, true));
+      // 获取运维日志列表数据
+      $.ajax({
+        url: "${ctx!}/admin/oplog/list2",
+        method: "POST",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        dataType: 'json',
+        data: $.param(params, true)
+        // data: params
+      }).done(function (data, textStatus, jqXHR) {
+        // 更新表格数据
+        // TODO: 搜索时，表格默认应该重置成第一页
+        $table.bootstrapTable('load', {
+          rows: data.content,
+          total: data.totalElements,
+        });
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log("error");
+        // TODO: 处理 302 状态码
+      });
+    }
   });
 
   function edit(id) {

@@ -4,13 +4,18 @@ import net.sppan.base.common.JsonResult;
 import net.sppan.base.controller.BaseController;
 import net.sppan.base.entity.Oplog;
 import net.sppan.base.service.IOplogService;
+import net.sppan.base.vo.OpLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/oplog")
@@ -29,6 +34,17 @@ public class OplogController extends BaseController {
 		@RequestParam(value = "searchText", required = false) String searchText
 	) {
 		Page<Oplog> page = oplogService.findAllByLike(searchText, getPageRequest());
+		return page;
+	}
+
+	@RequestMapping("/list2")
+	@ResponseBody
+	public Page<Oplog> list2(OpLogVO opLogVO) {
+		// 默认只支持 "createTime=2020&createTime=2021" 和 "createTime=2020,2021" 两种写法？
+		System.out.println(StringUtils.join(opLogVO.getCreateTime(), ","));
+		System.out.println(StringUtils.join(opLogVO.getUpdateTime(), ","));
+		System.out.println(opLogVO.toString());
+		Page<Oplog> page = oplogService.findAllByLike(opLogVO.getEventname(), getPageRequest());
 		return page;
 	}
 
