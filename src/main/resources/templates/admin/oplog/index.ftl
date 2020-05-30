@@ -210,7 +210,7 @@
       //必须设置，不然request.getParameter获取不到请求参数
       contentType: "application/x-www-form-urlencoded",
       //获取数据的Servlet地址
-      url: "${ctx!}/admin/oplog/list",
+      url: "${ctx!}/admin/oplog/list2",
       //表格显示条纹
       striped: true,
       //启动分页
