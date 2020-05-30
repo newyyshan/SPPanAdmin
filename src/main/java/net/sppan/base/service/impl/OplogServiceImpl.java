@@ -1,5 +1,6 @@
 package net.sppan.base.service.impl;
 
+import net.sppan.base.common.utils.DateUtils;
 import net.sppan.base.dao.IOplogDao;
 import net.sppan.base.dao.support.IBaseDao;
 import net.sppan.base.entity.Oplog;
@@ -121,28 +122,20 @@ public class OplogServiceImpl extends BaseServiceImpl<Oplog, Integer>
 				}
 
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date earliestTime = new Date(0);
 				if (ArrayUtils.isNotEmpty(opLogVO.getCreateTime())) {
 					try {
-						String createTimeStart = StringUtils.isNotBlank(opLogVO.getCreateTime()[0]) ? opLogVO.getCreateTime()[0] : "1900-01-01";
-						String createTimeEnd = StringUtils.isNotBlank(opLogVO.getCreateTime()[1]) ? opLogVO.getCreateTime()[1] : "";
-						Date createTimeStartDate = dateFormat.parse(createTimeStart);
-						Date createTimeEndDate = StringUtils.isNotBlank(createTimeEnd) ? dateFormat.parse(createTimeEnd) : new Date();
-
-						Calendar createTimeStartCalendar = Calendar.getInstance();
-						createTimeStartCalendar.setTime(createTimeStartDate);
-						createTimeStartCalendar.set(Calendar.HOUR_OF_DAY, 0);
-						createTimeStartCalendar.set(Calendar.MINUTE, 0);
-						createTimeStartCalendar.set(Calendar.SECOND, 0);
-						createTimeStartCalendar.set(Calendar.MILLISECOND, 0);
-
-						Calendar createTimeEndCalendar = Calendar.getInstance();
-						createTimeEndCalendar.setTime(createTimeEndDate);
-						createTimeEndCalendar.set(Calendar.HOUR_OF_DAY, 23);
-						createTimeEndCalendar.set(Calendar.MINUTE, 59);
-						createTimeEndCalendar.set(Calendar.SECOND, 59);
-						createTimeEndCalendar.set(Calendar.MILLISECOND, 999);
-
-						Predicate createTimePredicate = cb.between(root.get("createTime").as(Date.class), createTimeStartCalendar.getTime(), createTimeEndCalendar.getTime());
+						Date createTimeStart = StringUtils.isNotBlank(opLogVO.getCreateTime()[0])
+							? dateFormat.parse(opLogVO.getCreateTime()[0])
+							: earliestTime;
+						Date createTimeEnd = StringUtils.isNotBlank(opLogVO.getCreateTime()[1])
+							? dateFormat.parse(opLogVO.getCreateTime()[1])
+							: new Date();
+						Predicate createTimePredicate = cb.between(
+							root.get("createTime").as(Date.class),
+							DateUtils.atStartOfDay(createTimeStart),
+							DateUtils.atEndOfDay(createTimeEnd)
+						);
 						predicatesList.add(createTimePredicate);
 					} catch (ParseException e) {
 						e.printStackTrace();
@@ -151,25 +144,17 @@ public class OplogServiceImpl extends BaseServiceImpl<Oplog, Integer>
 
 				if (ArrayUtils.isNotEmpty(opLogVO.getUpdateTime())) {
 					try {
-						String updateTimeStart = StringUtils.isNotBlank(opLogVO.getUpdateTime()[0]) ? opLogVO.getUpdateTime()[0] : "1900-01-01";
-						String updateTimeEnd = StringUtils.isNotBlank(opLogVO.getUpdateTime()[1]) ? opLogVO.getUpdateTime()[1] : "";
-						Date updateTimeStartDate = dateFormat.parse(updateTimeStart);
-						Date updateTimeEndDate = StringUtils.isNotBlank(updateTimeEnd) ? dateFormat.parse(updateTimeEnd) : new Date();
-						Calendar updateTimeStartCalendar = Calendar.getInstance();
-						updateTimeStartCalendar.setTime(updateTimeStartDate);
-						updateTimeStartCalendar.set(Calendar.HOUR_OF_DAY, 0);
-						updateTimeStartCalendar.set(Calendar.MINUTE, 0);
-						updateTimeStartCalendar.set(Calendar.SECOND, 0);
-						updateTimeStartCalendar.set(Calendar.MILLISECOND, 0);
-
-						Calendar updateTimeEndCalendar = Calendar.getInstance();
-						updateTimeEndCalendar.setTime(updateTimeEndDate);
-						updateTimeEndCalendar.set(Calendar.HOUR_OF_DAY, 23);
-						updateTimeEndCalendar.set(Calendar.MINUTE, 59);
-						updateTimeEndCalendar.set(Calendar.SECOND, 59);
-						updateTimeEndCalendar.set(Calendar.MILLISECOND, 999);
-
-						Predicate updateTimePredicate = cb.between(root.get("updateTime").as(Date.class), updateTimeStartCalendar.getTime(), updateTimeEndCalendar.getTime());
+						Date updateTimeStart = StringUtils.isNotBlank(opLogVO.getUpdateTime()[0])
+							? dateFormat.parse(opLogVO.getUpdateTime()[0])
+							: earliestTime;
+						Date updateTimeEnd = StringUtils.isNotBlank(opLogVO.getUpdateTime()[1])
+							? dateFormat.parse(opLogVO.getUpdateTime()[1])
+							: new Date();
+						Predicate updateTimePredicate = cb.between(
+							root.get("updateTime").as(Date.class),
+							DateUtils.atStartOfDay(updateTimeStart),
+							DateUtils.atEndOfDay(updateTimeEnd)
+						);
 						predicatesList.add(updateTimePredicate);
 					} catch (ParseException e) {
 						e.printStackTrace();
