@@ -1,8 +1,7 @@
 package net.sppan.base.vo;
 
-
 public class OpLogVO {
-	private String state;
+	private Integer state;
 	private String region;
 	private String square;
 	private String createUser;
@@ -28,11 +27,11 @@ public class OpLogVO {
 			+ ", searchText=" + searchText + ", sortName=" + sortName + ", sortOrder=" + sortOrder + "}";
 	}
 
-	public String getState() {
+	public Integer getState() {
 		return this.state;
 	}
 
-	public void setState(String value) {
+	public void setState(Integer value) {
 		this.state = value;
 	}
 

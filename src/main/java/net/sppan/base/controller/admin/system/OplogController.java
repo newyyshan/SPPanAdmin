@@ -40,7 +40,15 @@ public class OplogController extends BaseController {
 	@RequestMapping("/list2")
 	@ResponseBody
 	public Page<Oplog> list2(OpLogVO opLogVO) {
-		// 默认只支持 "createTime=2020&createTime=2021" 和 "createTime=2020,2021" 两种写法？
+		 Integer state = opLogVO.getState();
+		 String region = opLogVO.getRegion();
+		 String square = opLogVO.getSquare();
+		 String createUser = opLogVO.getCreateUser();
+		 String updateUser = opLogVO.getUpdateUser();
+		 String eventname = opLogVO.getEventname();
+		 String[] createTime = opLogVO.getCreateTime();
+		 String[] updateTime = opLogVO.getUpdateTime();
+
 		System.out.println(StringUtils.join(opLogVO.getCreateTime(), ","));
 		System.out.println(StringUtils.join(opLogVO.getUpdateTime(), ","));
 		System.out.println(opLogVO.toString());
