@@ -29,7 +29,7 @@ public class Oplog extends BaseEntity {
 	private Integer id;
 
 	/**
-	 * 日志状态 0 新建 1 跟进 2 办结
+	 * 日志状态 0 新增 1 跟进 2 办结
 	 */
 	private Integer state;
 

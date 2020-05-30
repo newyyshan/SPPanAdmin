@@ -42,7 +42,7 @@
                 <div class="col-sm-8">
                   <select name="state" class="form-control" id="state-select">
                     <option value="">全部</option>
-                    <option value="0">新建</option>
+                    <option value="0">新增</option>
                     <option value="1">跟进</option>
                     <option value="2">办结</option>
                   </select>
