@@ -7,8 +7,8 @@ public class OpLogVO {
 	private String createUser;
 	private String updateUser;
 	private String eventname;
-	private String[] createTime = {"", ""};
-	private String[] updateTime = {"", ""};
+	private String[] createTime;
+	private String[] updateTime;
 
 	private int pageSize = 10;
 	private int pageNumber = 1;
